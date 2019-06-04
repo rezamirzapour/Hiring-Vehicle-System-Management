@@ -1,4 +1,4 @@
-package model;
+package model.vehicle;
 
 public class Motor extends Vehicle {
     @Override
