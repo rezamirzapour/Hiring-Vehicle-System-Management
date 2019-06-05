@@ -26,7 +26,7 @@ public class DashboardController implements Initializable {
     private TableView<Vehicle> tbData;
 
     @FXML
-    private TableColumn<Vehicle, Integer> id;
+    private TableColumn<Vehicle, Integer > id;
 
     @FXML
     private TableColumn<Vehicle, String> model;
@@ -46,8 +46,10 @@ public class DashboardController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         loadVehicles(garages.get(0));
+        loadGarageSelector(garages);
         loadFromFile();
     }
+
 
 
     private ObservableList<Vehicle> vehiclesList1 = FXCollections.observableArrayList(
@@ -81,7 +83,10 @@ public class DashboardController implements Initializable {
     );
 
 
-    private void loadVehicles(Garage garage) {
+
+
+    private void loadVehicles(Garage garage)
+    {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         model.setCellValueFactory(new PropertyValueFactory<>("model"));
         factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
@@ -91,9 +96,22 @@ public class DashboardController implements Initializable {
             tbData.getItems().add(garage.getVehicles().get(i));
         }
     }
+    private void clearTableData(TableView<Vehicle> tbData) {
+        tbData.getItems().clear();
+    }
 
     private void loadFromFile() {
 
+    }
+
+    private void loadGarageSelector(ObservableList<Garage> garages) {
+        for (int i = 0; i < garages.size(); i++) {
+            garageSelector.getItems().add(i);
+        }
+    }
+
+    private Garage selectedGarage(List<Garage> garages, int index) {
+        return garages.get(index);
     }
 
 }
