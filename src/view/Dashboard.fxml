@@ -34,6 +34,12 @@
                   <Font size="13.0" />
                </font>
             </Label>
+            <ComboBox fx:id="garageSelector" layoutX="678.0" layoutY="88.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #ffff;" />
+            <Label layoutX="660.0" layoutY="56.0" text="Select The Garage To Show Data" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <GridPane hgap="15.0" layoutX="45.0" layoutY="158.0" prefHeight="103.0" prefWidth="869.0" AnchorPane.leftAnchor="45.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="158.0">
