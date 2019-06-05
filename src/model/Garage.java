@@ -8,6 +8,10 @@ import java.util.List;
 public class Garage {
     private List<Vehicle> vehicles = new LinkedList<>();
 
+    public Garage(List<Vehicle> vehicles) {
+        setVehicles(vehicles);
+    }
+
     public Garage() {
         this.vehicles = new LinkedList<>();
     }
