@@ -34,8 +34,31 @@ public class DashboardController implements Initializable {
     private TableColumn<Vehicle, String> description;
 
     public void initialize(URL location, ResourceBundle resources) {
-
+        loadVehicles();
+        loadFromFile();
     }
 
+    private ObservableList<Vehicle> vehiclesList = FXCollections.observableArrayList(
+            new Vehicle("Pride", "factory1", 2016, "Description1"),
+            new Vehicle("Tiba", "factory2", 2017, "Description2"),
+            new Vehicle("Tondar", "factory3", 2018, "Description3"),
+            new Vehicle("Jack", "factory4", 2019, "Description4")
+
+    );
+
+
+    private void loadVehicles()
+    {
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        model.setCellValueFactory(new PropertyValueFactory<>("model"));
+        factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
+        createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        tbData.setItems(vehiclesList);
+    }
+
+    private void loadFromFile() {
+
+    }
 
 }
