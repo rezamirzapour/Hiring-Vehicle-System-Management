@@ -48,8 +48,15 @@ public class DashboardController implements Initializable {
         loadVehicles(garages.get(0));
         loadGarageSelector(garages);
         loadFromFile();
-    }
 
+        garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(javafx.event.ActionEvent event) {
+                clearTableData(tbData);
+                loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
+            }
+        });
+    }
 
 
     private ObservableList<Vehicle> vehiclesList1 = FXCollections.observableArrayList(
