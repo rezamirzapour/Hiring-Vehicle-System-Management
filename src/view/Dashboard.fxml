@@ -143,28 +143,32 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <ComboBox fx:id="vehicleType" layoutX="245.0" layoutY="300.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #EEAC4C;" />
-                        <Label layoutX="54.0" layoutY="300.0" prefHeight="17.0" prefWidth="139.0" text="Type of Vehicle" />
-                        <Label layoutX="54.0" layoutY="350.0" text="Priode Time" />
-                        <ComboBox fx:id="vehicleType1" layoutX="245.0" layoutY="350.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #3A84C3;" />
-                        <Button fx:id="hireButton" layoutX="147.0" layoutY="400.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Hire" textAlignment="CENTER" textFill="WHITE" />
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="157.0" layoutY="14.0" text="Filter By Type Of Vehicle" />
+                              <ComboBox fx:id="vehicleType2" layoutX="146.0" layoutY="31.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #D7534E;" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="hireButton1" layoutX="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Add New Vehicle" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="hireButton11" layoutX="73.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Delete" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="hireButton111" layoutX="221.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #2D75E8;" text="Edit" textAlignment="CENTER" textFill="WHITE" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ComboBox fx:id="vehicleType" layoutX="245.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #EEAC4C;" />
+                              <Label layoutX="54.0" prefHeight="17.0" prefWidth="139.0" text="Type of Vehicle" />
+                              <Label layoutX="54.0" layoutY="50.0" text="Priode Time" />
+                              <ComboBox fx:id="vehicleType1" layoutX="245.0" layoutY="50.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #3A84C3;" />
+                              <Button fx:id="hireButton" layoutX="147.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Hire" textAlignment="CENTER" textFill="WHITE" />
+                           </children>
+                        </Pane>
                      </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="157.0" layoutY="14.0" text="Filter By Type Of Vehicle" />
-                        <ComboBox fx:id="vehicleType2" layoutX="146.0" layoutY="31.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #D7534E;" />
-                     </children>
-                  </Pane>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="hireButton1" layoutX="147.0" layoutY="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Add New Vehicle" textAlignment="CENTER" textFill="WHITE" />
-                        <Button fx:id="hireButton11" layoutX="73.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Delete" textAlignment="CENTER" textFill="WHITE" />
-                        <Button fx:id="hireButton111" layoutX="221.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #2D75E8;" text="Edit" textAlignment="CENTER" textFill="WHITE" />
-                     </children>
-                  </Pane>
+                  </VBox>
                </children>
             </GridPane>
         </items>
