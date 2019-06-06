@@ -153,9 +153,9 @@
                         </Pane>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="hireButton1" layoutX="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Add New Vehicle" textAlignment="CENTER" textFill="WHITE" />
-                              <Button fx:id="hireButton11" layoutX="73.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Delete" textAlignment="CENTER" textFill="WHITE" />
-                              <Button fx:id="hireButton111" layoutX="221.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #2D75E8;" text="Edit" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="addButton" layoutX="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Add New Vehicle" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="deleteButton" layoutX="73.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Delete" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="editButton" layoutX="221.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #2D75E8;" text="Edit" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </Pane>
                         <Pane prefHeight="200.0" prefWidth="200.0">
