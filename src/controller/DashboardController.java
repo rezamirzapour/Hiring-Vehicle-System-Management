@@ -127,4 +127,8 @@ public class DashboardController implements Initializable {
         }
     }
 
+    private void desroyVehicle(List<Vehicle> vehicles, Vehicle vehicle) {
+        vehicles.remove(vehicle);
+    }
+
 }
