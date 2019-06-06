@@ -127,8 +127,4 @@ public class DashboardController implements Initializable {
         }
     }
 
-    private Garage selectedGarage(List<Garage> garages, int index) {
-        return garages.get(index);
-    }
-
 }
