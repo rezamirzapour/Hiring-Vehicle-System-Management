@@ -2,9 +2,11 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,7 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Garage;
 import model.vehicle.Vehicle;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -46,6 +47,14 @@ public class DashboardController implements Initializable {
     @FXML
     private ComboBox<String> vehicleType2;
 
+    @FXML
+    private Button addButton;
+
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private Button editButton;
 
     public void initialize(URL location, ResourceBundle resources) {
         loadBasicType();
@@ -60,6 +69,15 @@ public class DashboardController implements Initializable {
                 loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
             }
         });
+
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                desroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
+            }
+        });
+
+
     }
 
 
@@ -112,6 +130,7 @@ public class DashboardController implements Initializable {
         for (int i = 0; i < garage.getVehicles().size(); i++) {
             tbData.getItems().add(garage.getVehicles().get(i));
         }
+        tbData.getSelectionModel().selectFirst();
     }
     private void clearTableData(TableView<Vehicle> tbData) {
         tbData.getItems().clear();
@@ -125,10 +144,18 @@ public class DashboardController implements Initializable {
         for (int i = 0; i < garages.size(); i++) {
             garageSelector.getItems().add(i);
         }
+        garageSelector.setValue(0);
     }
 
-    private void desroyVehicle(List<Vehicle> vehicles, Vehicle vehicle) {
-        vehicles.remove(vehicle);
+    private void desroyVehicle(List<Vehicle> vehicles, int id) {
+        for (int i = 0; i < vehicles.size(); i++) {
+            if (vehicles.get(i).getId() == id) {
+                vehicles.remove(i);
+                break;
+            }
+        }
+        clearTableData(tbData);
+        loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
     }
 
 }
