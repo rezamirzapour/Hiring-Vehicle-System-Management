@@ -43,8 +43,12 @@ public class DashboardController implements Initializable {
     @FXML
     private ComboBox<Integer> garageSelector;
 
+    @FXML
+    private ComboBox<String> vehicleType2;
+
 
     public void initialize(URL location, ResourceBundle resources) {
+        loadBasicType();
         loadVehicles(garages.get(0));
         loadGarageSelector(garages);
         loadFromFile();
@@ -90,6 +94,12 @@ public class DashboardController implements Initializable {
     );
 
 
+    private void loadBasicType() {
+        vehicleType2.getItems().add("Machine");
+        vehicleType2.getItems().add("Motor");
+        vehicleType2.getItems().add("Bus");
+        vehicleType2.getItems().add("Lorry");
+    }
 
 
     private void loadVehicles(Garage garage)
