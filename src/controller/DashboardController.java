@@ -5,12 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import model.Garage;
 import model.vehicle.Vehicle;
 
@@ -24,10 +26,13 @@ public class DashboardController implements Initializable {
 
 
     @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
     private TableView<Vehicle> tbData;
 
     @FXML
-    private TableColumn<Vehicle, Integer > id;
+    private TableColumn<Vehicle, Integer> id;
 
     @FXML
     private TableColumn<Vehicle, String> model;
@@ -120,8 +125,7 @@ public class DashboardController implements Initializable {
     }
 
 
-    private void loadVehicles(Garage garage)
-    {
+    private void loadVehicles(Garage garage) {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         model.setCellValueFactory(new PropertyValueFactory<>("model"));
         factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
@@ -130,8 +134,10 @@ public class DashboardController implements Initializable {
         for (int i = 0; i < garage.getVehicles().size(); i++) {
             tbData.getItems().add(garage.getVehicles().get(i));
         }
+        // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
     }
+
     private void clearTableData(TableView<Vehicle> tbData) {
         tbData.getItems().clear();
     }
@@ -158,4 +164,9 @@ public class DashboardController implements Initializable {
         loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
     }
 
+    private void loadAddVehicleScene() throws IOException{
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("view/AddVehicle.fxml"));
+        anchorPane.getChildren().setAll(pane);
+
+    }
 }
