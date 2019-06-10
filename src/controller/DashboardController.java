@@ -167,6 +167,5 @@ public class DashboardController implements Initializable {
     private void loadAddVehicleScene() throws IOException{
         AnchorPane pane = FXMLLoader.load(getClass().getResource("view/AddVehicle.fxml"));
         anchorPane.getChildren().setAll(pane);
-
     }
 }
