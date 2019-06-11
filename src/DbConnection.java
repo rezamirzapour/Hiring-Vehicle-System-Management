@@ -1,8 +1,10 @@
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import model.vehicle.*;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DbConnection {
     Connection c;
@@ -45,6 +47,34 @@ public class DbConnection {
             e.printStackTrace();
         }
 
+    }
+
+    public List<Vehicle> getAllVehicle() {
+        List vehicles = new LinkedList();
+        String getSQL="SELECT model,factory,createYear,description,vehicleType FROM vehicles;";
+        try {
+            ResultSet rs=st.executeQuery(getSQL);
+            while(rs.next()){
+                String type = rs.getString(4);
+                Vehicle vehicle;
+
+                if (type.equals("Bus")) { vehicle = new Bus(); }
+                else if(type.equals("Lorry")) { vehicle = new Lorry();}
+                else if(type.equals("Machine")) { vehicle = new Machine();}
+                else if(type.equals("Motor")) { vehicle = new Motor();}
+                else { vehicle = new Vehicle();}
+
+                vehicle.setModel(rs.getString(1));;
+                vehicle.setFactory(rs.getString(2));
+                vehicle.setCreateYear(Integer.parseInt(rs.getString(3)));
+                vehicle.setDescription(rs.getString(4));
+
+                vehicles.add(vehicle);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return vehicles;
     }
 
     public void close() {
