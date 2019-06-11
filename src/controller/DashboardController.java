@@ -18,7 +18,6 @@ import model.vehicle.Vehicle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -78,7 +77,14 @@ public class DashboardController implements Initializable {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                desroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
+                destroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
+            }
+        });
+
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadAddVehicleScene();
             }
         });
 
@@ -153,7 +159,7 @@ public class DashboardController implements Initializable {
         garageSelector.setValue(0);
     }
 
-    private void desroyVehicle(List<Vehicle> vehicles, int id) {
+    private void destroyVehicle(List<Vehicle> vehicles, int id) {
         for (int i = 0; i < vehicles.size(); i++) {
             if (vehicles.get(i).getId() == id) {
                 vehicles.remove(i);
@@ -164,8 +170,13 @@ public class DashboardController implements Initializable {
         loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
     }
 
-    private void loadAddVehicleScene() throws IOException{
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("view/AddVehicle.fxml"));
-        anchorPane.getChildren().setAll(pane);
+    private void loadAddVehicleScene() {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Dashboard.fxml"));
+            anchorPane.getChildren().removeAll();
+            anchorPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
