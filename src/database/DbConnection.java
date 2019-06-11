@@ -39,6 +39,20 @@ public class DbConnection {
 
     }
 
+    public void updateVehicle(int id, String model, String factory, int createYear, String description) {
+        String updateSQL = "UPDATE vehicles SET model = '"+model
+                +"', factory = '"+factory
+                +"', create_year = " +createYear
+                +", description = '" +description
+                +"WHERE id = ;"+id+";";
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(updateSQL);
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public List<Vehicle> getAllVehicle() {
         List vehicles = new LinkedList();
         String getSQL="SELECT model,factory,create_year,description,vehicle_type FROM vehicles;";
