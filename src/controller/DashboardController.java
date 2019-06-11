@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Garage;
 import model.vehicle.Vehicle;
+import database.DbConnection;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,8 +62,11 @@ public class DashboardController implements Initializable {
     private Button editButton;
 
     public void initialize(URL location, ResourceBundle resources) {
+        //DbConnection db = new DbConnection();
+
         loadBasicType();
-        loadVehicles(garages.get(0));
+        //loadVehicles(garages.get(0));
+        getAllVehicles(0);
         loadGarageSelector(garages);
         loadFromFile();
 
@@ -178,5 +182,18 @@ public class DashboardController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void getAllVehicles(int garageId) {
+        DbConnection dbConnection = new DbConnection();
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        model.setCellValueFactory(new PropertyValueFactory<>("model"));
+        factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
+        createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        for (int i = 0; i < dbConnection.getAllVehicle().size(); i++) {
+            tbData.getItems().add(dbConnection.getAllVehicle().get(i));
+        }
+        dbConnection.close();
     }
 }
