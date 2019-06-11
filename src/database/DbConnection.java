@@ -12,7 +12,7 @@ public class DbConnection {
 
     public DbConnection() {
         connect();
-        createTable();
+        //createTable();
         close();
     }
 
@@ -27,7 +27,7 @@ public class DbConnection {
         }
     }
 
-    public void createTable(){
+    /*public void createTable(){
         String tablSQL="CREATE TABLE IF NOT EXISTS vehicles (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,model TEXT , factory TEXT, createYear INTEGER, description TEXT, vehicleType TEXT);";
         try {
             st.executeUpdate(tablSQL);
@@ -36,9 +36,9 @@ public class DbConnection {
             System.out.println(e.getMessage());
         }
     }
-
+*/
     public void insertVehicle(String model,String factory, int createYear, String description, String vehicleType){
-        String insertSQL="INSERT INTO vehicles (model,factory) VALUES ('"+model+"','"+factory+"','"+createYear+"','"+description+"','"+vehicleType+"');";
+        String insertSQL="INSERT INTO vehicles (model,factory,create_year,description,vehicle_type) VALUES ('"+model+"','"+factory+"','"+createYear+"','"+description+"','"+vehicleType+"');";
         try {
             st.executeUpdate(insertSQL);
             System.out.println("Inserted!");
@@ -51,11 +51,11 @@ public class DbConnection {
 
     public List<Vehicle> getAllVehicle() {
         List vehicles = new LinkedList();
-        String getSQL="SELECT model,factory,createYear,description,vehicleType FROM vehicles;";
+        String getSQL="SELECT model,factory,create_year,description,vehicle_type FROM vehicles;";
         try {
             ResultSet rs=st.executeQuery(getSQL);
             while(rs.next()){
-                String type = rs.getString(4);
+                String type = rs.getString(5);
                 Vehicle vehicle;
 
                 if (type.equals("Bus")) { vehicle = new Bus(); }
