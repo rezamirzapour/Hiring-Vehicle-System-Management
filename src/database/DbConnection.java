@@ -47,7 +47,17 @@ public class DbConnection {
                 +"WHERE id = ;"+id+";";
         try {
             Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery(updateSQL);
+            st.executeQuery(updateSQL);
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteVehicle(int id) {
+        String deleteSQL = "DELETE FROM vehicles WHERE id = "+id+";";
+        try {
+            Statement st = c.createStatement();
+            st.executeQuery(deleteSQL);
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }
