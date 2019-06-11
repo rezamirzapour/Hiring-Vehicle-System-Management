@@ -63,6 +63,7 @@ public class DashboardController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         //DbConnection db = new DbConnection();
+        //DbConnection db = new DbConnection();
 
         loadBasicType();
         //loadVehicles(garages.get(0));
@@ -81,6 +82,8 @@ public class DashboardController implements Initializable {
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                DbConnection db = new DbConnection();
+                db.deleteVehicle(tbData.getSelectionModel().getSelectedItem().getId());
                 destroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
             }
         });
