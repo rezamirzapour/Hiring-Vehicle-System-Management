@@ -7,6 +7,6 @@ import java.util.ResourceBundle;
 
 public class CreateController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
-
+        System.out.println("Hi");
     }
 }
