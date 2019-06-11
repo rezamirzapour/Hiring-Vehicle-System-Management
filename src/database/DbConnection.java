@@ -3,6 +3,7 @@ package database;
 import model.vehicle.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,10 +11,9 @@ public class DbConnection {
     Connection c;
     Statement st;
 
+
     public DbConnection() {
         connect();
-        //createTable();
-        close();
     }
 
     public void connect() {
@@ -27,16 +27,6 @@ public class DbConnection {
         }
     }
 
-    /*public void createTable(){
-        String tablSQL="CREATE TABLE IF NOT EXISTS vehicles (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,model TEXT , factory TEXT, createYear INTEGER, description TEXT, vehicleType TEXT);";
-        try {
-            st.executeUpdate(tablSQL);
-            System.out.println("vehicles TABLE created");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-*/
     public void insertVehicle(String model,String factory, int createYear, String description, String vehicleType){
         String insertSQL="INSERT INTO vehicles (model,factory,create_year,description,vehicle_type) VALUES ('"+model+"','"+factory+"','"+createYear+"','"+description+"','"+vehicleType+"');";
         try {
@@ -53,10 +43,12 @@ public class DbConnection {
         List vehicles = new LinkedList();
         String getSQL="SELECT model,factory,create_year,description,vehicle_type FROM vehicles;";
         try {
+            Statement st = c.createStatement();
             ResultSet rs=st.executeQuery(getSQL);
+
             while(rs.next()){
                 String type = rs.getString(5);
-                Vehicle vehicle;
+                Vehicle vehicle = new Vehicle();
 
                 if (type.equals("Bus")) { vehicle = new Bus(); }
                 else if(type.equals("Lorry")) { vehicle = new Lorry();}
