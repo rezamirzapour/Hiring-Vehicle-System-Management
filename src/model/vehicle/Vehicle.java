@@ -6,6 +6,7 @@ public class Vehicle {
     protected String factory;
     protected int createYear;
     protected String description;
+    protected String vehicleType;
     protected int garageId;
 
     public Vehicle() {
@@ -46,6 +47,10 @@ public class Vehicle {
         return description;
     }
 
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
     public int getGarageId() { return garageId; }
 
     public void setId(int id) {
@@ -68,6 +73,10 @@ public class Vehicle {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public void setGarageId(int garageId) {
