@@ -9,11 +9,11 @@ public class Vehicle {
     protected int garageId;
 
     public Vehicle() {
-        this.id = (int) (Math.random() * 1000 + 1000);
+
     }
 
-    public Vehicle(String model, String factory, int createYear, String description, int garageId) {
-        this.id = (int) (Math.random() * 1000 + 1000);
+    public Vehicle(int id, String model, String factory, int createYear, String description, int garageId) {
+        setId(id);
         setModel(model);
         setFactory(factory);
         setCreateYear(createYear);
