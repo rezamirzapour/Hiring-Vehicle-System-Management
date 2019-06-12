@@ -67,15 +67,15 @@ public class DashboardController implements Initializable {
 
         loadBasicType();
         //loadVehicles(garages.get(0));
-        getAllVehicles(0);
-        loadGarageSelector(garages);
+        loadVehicles(1);
+        loadGarageSelector();
         loadFromFile();
 
         garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
                 clearTableData(tbData);
-                loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
             }
         });
 
@@ -84,7 +84,7 @@ public class DashboardController implements Initializable {
             public void handle(ActionEvent event) {
                 DbConnection db = new DbConnection();
                 db.deleteVehicle(tbData.getSelectionModel().getSelectedItem().getId());
-                destroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
+                //destroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
             }
         });
 
@@ -99,37 +99,6 @@ public class DashboardController implements Initializable {
     }
 
 
-    private ObservableList<Vehicle> vehiclesList1 = FXCollections.observableArrayList(
-            new Vehicle("Pride", "factory1", 2016, "Description1"),
-            new Vehicle("Tiba", "factory2", 2017, "Description2"),
-            new Vehicle("Tondar", "factory3", 2018, "Description3"),
-            new Vehicle("Jack", "factory4", 2019, "Description4")
-
-    );
-
-    private ObservableList<Vehicle> vehiclesList2 = FXCollections.observableArrayList(
-            new Vehicle("Tiba", "factory2", 2017, "Description2"),
-            new Vehicle("Tondar", "factory3", 2018, "Description3"),
-            new Vehicle("Jack", "factory4", 2019, "Description4"),
-            new Vehicle("Tiba", "factory2", 2017, "Description2"),
-            new Vehicle("Pride", "factory1", 2016, "Description1")
-    );
-
-    private ObservableList<Vehicle> vehiclesList3 = FXCollections.observableArrayList(
-            new Vehicle("Tondar", "factory3", 2018, "Description3"),
-            new Vehicle("Jack", "factory4", 2019, "Description4"),
-            new Vehicle("Tiba", "factory2", 2017, "Description2"),
-            new Vehicle("Pride", "factory1", 2016, "Description1"),
-            new Vehicle("Tiba", "factory2", 2017, "Description2")
-    );
-
-    private ObservableList<Garage> garages = FXCollections.observableArrayList(
-            new Garage(vehiclesList1),
-            new Garage(vehiclesList2),
-            new Garage(vehiclesList3)
-    );
-
-
     private void loadBasicType() {
         vehicleType2.getItems().add("Machine");
         vehicleType2.getItems().add("Motor");
@@ -138,17 +107,20 @@ public class DashboardController implements Initializable {
     }
 
 
-    private void loadVehicles(Garage garage) {
+    private void loadVehicles(int garageId) {
+        DbConnection db = new DbConnection();
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         model.setCellValueFactory(new PropertyValueFactory<>("model"));
         factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
         createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        for (int i = 0; i < garage.getVehicles().size(); i++) {
-            tbData.getItems().add(garage.getVehicles().get(i));
+        for (int i = 0; i < db.getAllVehicle().size(); i++) {
+            if (db.getAllVehicle().get(i).getGarageId() == garageId)
+            tbData.getItems().add(db.getAllVehicle().get(i));
         }
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
+        db.close();
     }
 
     private void clearTableData(TableView<Vehicle> tbData) {
@@ -159,11 +131,12 @@ public class DashboardController implements Initializable {
 
     }
 
-    private void loadGarageSelector(ObservableList<Garage> garages) {
-        for (int i = 0; i < garages.size(); i++) {
-            garageSelector.getItems().add(i);
+    private void loadGarageSelector() {
+        DbConnection db = new DbConnection();
+        for (int i = 0; i < db.getGarageIds().size(); i++) {
+            garageSelector.getItems().add(db.getGarageIds().get(i));
         }
-        garageSelector.setValue(0);
+        garageSelector.setValue(1);
     }
 
     private void destroyVehicle(List<Vehicle> vehicles, int id) {
@@ -174,7 +147,7 @@ public class DashboardController implements Initializable {
             }
         }
         clearTableData(tbData);
-        loadVehicles(garages.get(Integer.parseInt(garageSelector.getValue().toString())));
+        loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
     }
 
     private void loadAddVehicleScene() {
@@ -186,17 +159,20 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-
+/*
     private void getAllVehicles(int garageId) {
-        DbConnection dbConnection = new DbConnection();
+        DbConnection db = new DbConnection();
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         model.setCellValueFactory(new PropertyValueFactory<>("model"));
         factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
         createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        for (int i = 0; i < dbConnection.getAllVehicle().size(); i++) {
-            tbData.getItems().add(dbConnection.getAllVehicle().get(i));
+        for (int i = 0; i < db.getAllVehicle().size(); i++) {
+            if (db.getAllVehicle().get(i).getGarageId() == garageId) {
+                tbData.getItems().add(db.getAllVehicle().get(i));
+            }
         }
-        dbConnection.close();
+        db.close();
     }
+    */
 }
