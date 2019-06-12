@@ -98,6 +98,7 @@ public class DbConnection {
                 vehicle.setFactory(rs.getString(2));
                 vehicle.setCreateYear(Integer.parseInt(rs.getString(3)));
                 vehicle.setDescription(rs.getString(4));
+                vehicle.setGarageId(Integer.parseInt(rs.getString(6)));
 
                 vehicles.add(vehicle);
             }
