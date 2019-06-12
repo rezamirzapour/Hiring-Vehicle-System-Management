@@ -65,11 +65,15 @@ public class CreateController extends Controller {
     @FXML
     private ComboBox<String> vehicleType;
 
+    @FXML
+    private Button backButton;
+
 
     public void initialize(URL location, ResourceBundle resources) {
         loadGarageSelector(garageSelector);
         loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), tbData, id, model, factory, createYear, description);
         loadBasicType(vehicleType);
+        vehicleType.setValue("Machine");
         createButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -79,14 +83,20 @@ public class CreateController extends Controller {
                         factoryTextField.getText(),
                         Integer.parseInt(createTextField.getText()),
                         descriptionTextField.getText(),
-                        vehicleType.getSelectionModel().getSelectedItem().toString(),
+                        vehicleType.getSelectionModel().getSelectedItem(),
                         garageSelector.getSelectionModel().getSelectedItem()
                 );
                 db.close();
-                //loadScene(anchorPane, "Dashboard.fxml");
                 loadDashboardScene();
             }
         });
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadDashboardScene();
+            }
+        });
+
     }
 
     private void loadDashboardScene() {

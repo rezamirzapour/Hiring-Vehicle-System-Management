@@ -158,6 +158,7 @@
                               <TextField fx:id="createTextField" layoutX="245.0" layoutY="200.0" />
                               <Label layoutX="54.0" layoutY="250.0" text="Description" />
                               <TextField fx:id="descriptionTextField" layoutX="245.0" layoutY="250.0" />
+                              <Button fx:id="backButton" layoutX="147.0" layoutY="350.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Back" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </Pane>
                      </children>

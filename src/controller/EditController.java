@@ -64,11 +64,14 @@ public class EditController extends Controller {
     @FXML
     private ComboBox<String> vehicleType;
 
+    @FXML
+    private Button backButton;
 
     public void initialize(URL location, ResourceBundle resources) {
         loadGarageSelector(garageSelector);
         loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), tbData, id, model, factory, createYear, description);
         loadBasicType(vehicleType);
+        vehicleType.setValue("Machine");
         editButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -82,6 +85,13 @@ public class EditController extends Controller {
                         vehicleType.getSelectionModel().getSelectedItem()
                 );
                 db.close();
+                loadDashboardScene();
+            }
+        });
+
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
                 loadDashboardScene();
             }
         });
