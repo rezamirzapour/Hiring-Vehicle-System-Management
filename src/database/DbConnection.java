@@ -63,6 +63,20 @@ public class DbConnection {
         }
     }
 
+    public List<Integer> getGarageIds() {
+        List<Integer> garageIds = new LinkedList<>();
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery("SELECT DISTINCT garage_id FROM vehicles");
+            while (rs.next()) {
+                garageIds.add(Integer.parseInt(rs.getString(1)));
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return  garageIds;
+    }
+
     public List<Vehicle> getAllVehicle() {
         List vehicles = new LinkedList();
         String getSQL="SELECT model,factory,create_year,description,vehicle_type,garage_id FROM vehicles;";
