@@ -27,9 +27,10 @@ public class DbConnection {
         }
     }
 
-    public void insertVehicle(String model,String factory, int createYear, String description, String vehicleType){
-        String insertSQL="INSERT INTO vehicles (model,factory,create_year,description,vehicle_type) VALUES ('"+model+"','"+factory+"','"+createYear+"','"+description+"','"+vehicleType+"');";
+    public void insertVehicle(String model,String factory, int createYear, String description, String vehicleType, int garageId){
+        String insertSQL="INSERT INTO VEHICLE (model,factory,create_year,description,vehicle_type,garage_id) VALUES ('"+model+"','"+factory+"','"+createYear+"','"+description+"','"+vehicleType+"','"+garageId+"');";
         try {
+            Statement st = c.createStatement();
             st.executeUpdate(insertSQL);
             System.out.println("Inserted!");
         } catch (SQLException e) {
@@ -40,7 +41,7 @@ public class DbConnection {
     }
 
     public void updateVehicle(int id, String model, String factory, int createYear, String description) {
-        String updateSQL = "UPDATE vehicles SET model = '"+model
+        String updateSQL = "UPDATE VEHICLE SET model = '"+model
                 +"', factory = '"+factory
                 +"', create_year = " +createYear
                 +", description = '" +description
@@ -54,7 +55,7 @@ public class DbConnection {
     }
 
     public void deleteVehicle(int id) {
-        String deleteSQL = "DELETE FROM vehicles WHERE id = "+id+";";
+        String deleteSQL = "DELETE FROM VEHICLE WHERE id = "+id+";";
         try {
             Statement st = c.createStatement();
             st.executeQuery(deleteSQL);
@@ -67,7 +68,7 @@ public class DbConnection {
         List<Integer> garageIds = new LinkedList<>();
         try {
             Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery("SELECT DISTINCT garage_id FROM vehicles");
+            ResultSet rs = st.executeQuery("SELECT DISTINCT garage_id FROM VEHICLE");
             while (rs.next()) {
                 garageIds.add(Integer.parseInt(rs.getString(1)));
             }
@@ -79,7 +80,7 @@ public class DbConnection {
 
     public List<Vehicle> getAllVehicle() {
         List vehicles = new LinkedList();
-        String getSQL="SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM vehicles;";
+        String getSQL="SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
         try {
             Statement st = c.createStatement();
             ResultSet rs=st.executeQuery(getSQL);

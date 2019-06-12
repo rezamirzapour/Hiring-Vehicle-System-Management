@@ -62,19 +62,14 @@ public class DashboardController implements Initializable {
     private Button editButton;
 
     public void initialize(URL location, ResourceBundle resources) {
-        //DbConnection db = new DbConnection();
-        //DbConnection db = new DbConnection();
 
         loadBasicType();
-        //loadVehicles(garages.get(0));
         loadVehicles(1);
         loadGarageSelector();
-        loadFromFile();
 
         garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                clearTableData(tbData);
                 loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
             }
         });
@@ -85,7 +80,7 @@ public class DashboardController implements Initializable {
                 DbConnection db = new DbConnection();
                 db.deleteVehicle(tbData.getSelectionModel().getSelectedItem().getId());
                 loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
-                //destroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
+                db.close();
             }
         });
 
@@ -109,6 +104,7 @@ public class DashboardController implements Initializable {
 
 
     private void loadVehicles(int garageId) {
+        clearTableData(tbData);
         DbConnection db = new DbConnection();
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         model.setCellValueFactory(new PropertyValueFactory<>("model"));
@@ -138,6 +134,7 @@ public class DashboardController implements Initializable {
             garageSelector.getItems().add(db.getGarageIds().get(i));
         }
         garageSelector.setValue(1);
+        db.close();
     }
 
     private void destroyVehicle(List<Vehicle> vehicles, int id) {
@@ -160,20 +157,4 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-/*
-    private void getAllVehicles(int garageId) {
-        DbConnection db = new DbConnection();
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        model.setCellValueFactory(new PropertyValueFactory<>("model"));
-        factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
-        createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
-        description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        for (int i = 0; i < db.getAllVehicle().size(); i++) {
-            if (db.getAllVehicle().get(i).getGarageId() == garageId) {
-                tbData.getItems().add(db.getAllVehicle().get(i));
-            }
-        }
-        db.close();
-    }
-    */
 }
