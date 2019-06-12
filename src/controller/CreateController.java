@@ -1,5 +1,6 @@
 package controller;
 
+import database.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Garage;
+import model.vehicle.Bus;
+import model.vehicle.Machine;
 import model.vehicle.Vehicle;
 
 import java.io.IOException;
@@ -18,7 +21,16 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CreateController implements Initializable {
+public class CreateController extends Controller {
+
+    @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
+    private TableColumn<?, ?> id;
+
+    @FXML
+    private TableColumn<?, ?> model;
 
     @FXML
     private TableColumn<?, ?> factory;
@@ -30,45 +42,60 @@ public class CreateController implements Initializable {
     private TableColumn<?, ?> description;
 
     @FXML
-    private TextField modelTextField;
+    private TableView<Vehicle> tbData;
 
     @FXML
-    private TableView<?> tbData;
-
-    @FXML
-    private AnchorPane anchorPane;
-
-    @FXML
-    private TextField factoryTextField11;
-
-    @FXML
-    private ComboBox<?> garageSelector;
+    private ComboBox<Integer> garageSelector;
 
     @FXML
     private Button createButton;
 
     @FXML
-    private TableColumn<?, ?> model;
+    private TextField modelTextField;
 
     @FXML
-    private TextField factoryTextField1;
+    private TextField factoryTextField;
 
     @FXML
-    private TableColumn<?, ?> id;
+    private TextField createTextField;
 
     @FXML
     private TextField descriptionTextField;
 
     @FXML
-    private ComboBox<?> vehicleType;
+    private ComboBox<String> vehicleType;
 
 
     public void initialize(URL location, ResourceBundle resources) {
+        loadGarageSelector(garageSelector);
+        loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), tbData, id, model, factory, createYear, description);
+        loadBasicType(vehicleType);
         createButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                DbConnection db = new DbConnection();
+                db.insertVehicle(
+                        modelTextField.getText(),
+                        factoryTextField.getText(),
+                        Integer.parseInt(createTextField.getText()),
+                        descriptionTextField.getText(),
+                        vehicleType.getSelectionModel().getSelectedItem().toString(),
+                        garageSelector.getSelectionModel().getSelectedItem()
+                );
+                db.close();
+                //loadScene(anchorPane, "Dashboard.fxml");
+                loadDashboardScene();
             }
         });
+    }
+
+    private void loadDashboardScene() {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Dashboard.fxml"));
+            anchorPane.getChildren().removeAll();
+            anchorPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

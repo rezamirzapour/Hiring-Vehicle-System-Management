@@ -149,13 +149,13 @@
                            <children>
                               <ComboBox fx:id="vehicleType" layoutX="245.0" layoutY="50.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #EEAC4C;" />
                               <Label layoutX="54.0" layoutY="50.0" prefHeight="17.0" prefWidth="139.0" text="Type of Vehicle" />
-                              <Button fx:id="AddButton" layoutX="147.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Add" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="createButton" layoutX="147.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #5CB55B;" text="Create" textAlignment="CENTER" textFill="WHITE" />
                               <Label layoutX="54.0" layoutY="100.0" text="Model" />
                               <TextField fx:id="modelTextField" layoutX="245.0" layoutY="100.0" />
                               <Label layoutX="52.0" layoutY="150.0" text="Factory" />
-                              <TextField fx:id="factoryTextField1" layoutX="245.0" layoutY="146.0" />
-                              <Label layoutX="52.0" layoutY="200.0" text="Factory" />
-                              <TextField fx:id="factoryTextField11" layoutX="245.0" layoutY="200.0" />
+                              <TextField fx:id="factoryTextField" layoutX="245.0" layoutY="146.0" />
+                              <Label layoutX="52.0" layoutY="200.0" text="Createa Year" />
+                              <TextField fx:id="createTextField" layoutX="245.0" layoutY="200.0" />
                               <Label layoutX="54.0" layoutY="250.0" text="Description" />
                               <TextField fx:id="descriptionTextField" layoutX="245.0" layoutY="250.0" />
                            </children>
