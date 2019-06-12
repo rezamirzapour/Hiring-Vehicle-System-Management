@@ -65,7 +65,7 @@ public class DbConnection {
 
     public List<Vehicle> getAllVehicle() {
         List vehicles = new LinkedList();
-        String getSQL="SELECT model,factory,create_year,description,vehicle_type FROM vehicles;";
+        String getSQL="SELECT model,factory,create_year,description,vehicle_type,garage_id FROM vehicles;";
         try {
             Statement st = c.createStatement();
             ResultSet rs=st.executeQuery(getSQL);

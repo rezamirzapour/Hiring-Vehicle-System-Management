@@ -6,17 +6,19 @@ public class Vehicle {
     protected String factory;
     protected int createYear;
     protected String description;
+    protected int garageId;
 
     public Vehicle() {
         this.id = (int) (Math.random() * 1000 + 1000);
     }
 
-    public Vehicle(String model, String factory, int createYear, String description) {
+    public Vehicle(String model, String factory, int createYear, String description, int garageId) {
         this.id = (int) (Math.random() * 1000 + 1000);
-        this.model = model;
-        this.factory = factory;
-        this.createYear = createYear;
-        this.description = description;
+        setModel(model);
+        setFactory(factory);
+        setCreateYear(createYear);
+        setDescription(description);
+        setGarageId(garageId);
     }
 
 
@@ -44,6 +46,8 @@ public class Vehicle {
         return description;
     }
 
+    public int getGarageId() { return garageId; }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -66,4 +70,7 @@ public class Vehicle {
         this.description = description;
     }
 
+    public void setGarageId(int garageId) {
+        this.garageId = garageId;
+    }
 }
