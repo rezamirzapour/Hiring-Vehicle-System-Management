@@ -40,12 +40,13 @@ public class DbConnection {
 
     }
 
-    public void updateVehicle(int id, String model, String factory, int createYear, String description) {
+    public void updateVehicle(int id, String model, String factory, int createYear, String description, String vehicleType) {
         String updateSQL = "UPDATE VEHICLE SET model = '"+model
                 +"', factory = '"+factory
                 +"', create_year = " +createYear
                 +", description = '" +description
-                +"WHERE id = ;"+id+";";
+                +"', vehicle_type = '" +vehicleType
+                +"' WHERE id = "+id+";";
         try {
             Statement st = c.createStatement();
             st.executeQuery(updateSQL);
