@@ -19,6 +19,7 @@ import database.DbConnection;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -50,7 +51,7 @@ public class DashboardController implements Initializable {
     private ComboBox<Integer> garageSelector;
 
     @FXML
-    private ComboBox<String> vehicleType2;
+    private ComboBox<String> filterComboBox;
 
     @FXML
     private Button addButton;
@@ -90,16 +91,29 @@ public class DashboardController implements Initializable {
                 loadAddVehicleScene();
             }
         });
+        editButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadAddEditScene();
+            }
+        });
 
+        filterComboBox.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue());
+            }
+        });
 
     }
 
 
     private void loadBasicType() {
-        vehicleType2.getItems().add("Machine");
-        vehicleType2.getItems().add("Motor");
-        vehicleType2.getItems().add("Bus");
-        vehicleType2.getItems().add("Lorry");
+        filterComboBox.getItems().add("All");
+        filterComboBox.getItems().add("Machine");
+        filterComboBox.getItems().add("Motor");
+        filterComboBox.getItems().add("Bus");
+        filterComboBox.getItems().add("Lorry");
     }
 
 
@@ -120,12 +134,30 @@ public class DashboardController implements Initializable {
         db.close();
     }
 
-    private void clearTableData(TableView<Vehicle> tbData) {
-        tbData.getItems().clear();
+    private void loadVehicles(int garageId, String type) {
+        clearTableData(tbData);
+        DbConnection db = new DbConnection();
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        model.setCellValueFactory(new PropertyValueFactory<>("model"));
+        factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
+        createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        if (type.equals("All")) {
+            loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
+        }
+        else {
+            for (int i = 0; i < db.getAllVehicle().size(); i++) {
+                if (db.getAllVehicle().get(i).getGarageId() == garageId && db.getAllVehicle().get(i).getVehicleType().equals(type))
+                    tbData.getItems().add(db.getAllVehicle().get(i));
+            }
+        }
+        // Set Default Selected Row
+        tbData.getSelectionModel().selectFirst();
+        db.close();
     }
 
-    private void loadFromFile() {
-
+    private void clearTableData(TableView<Vehicle> tbData) {
+        tbData.getItems().clear();
     }
 
     private void loadGarageSelector() {
@@ -157,4 +189,15 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void loadAddEditScene() {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Edit.fxml"));
+            anchorPane.getChildren().removeAll();
+            anchorPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
