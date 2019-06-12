@@ -84,6 +84,7 @@ public class DashboardController implements Initializable {
             public void handle(ActionEvent event) {
                 DbConnection db = new DbConnection();
                 db.deleteVehicle(tbData.getSelectionModel().getSelectedItem().getId());
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
                 //destroyVehicle(garages.get(Integer.parseInt(garageSelector.getValue().toString())).getVehicles(), tbData.getSelectionModel().getSelectedItem().getId());
             }
         });

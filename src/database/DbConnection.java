@@ -79,13 +79,13 @@ public class DbConnection {
 
     public List<Vehicle> getAllVehicle() {
         List vehicles = new LinkedList();
-        String getSQL="SELECT model,factory,create_year,description,vehicle_type,garage_id FROM vehicles;";
+        String getSQL="SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM vehicles;";
         try {
             Statement st = c.createStatement();
             ResultSet rs=st.executeQuery(getSQL);
 
             while(rs.next()){
-                String type = rs.getString(5);
+                String type = rs.getString(6);
                 Vehicle vehicle = new Vehicle();
 
                 if (type.equals("Bus")) { vehicle = new Bus(); }
@@ -94,11 +94,12 @@ public class DbConnection {
                 else if(type.equals("Motor")) { vehicle = new Motor();}
                 else { vehicle = new Vehicle();}
 
-                vehicle.setModel(rs.getString(1));;
-                vehicle.setFactory(rs.getString(2));
-                vehicle.setCreateYear(Integer.parseInt(rs.getString(3)));
-                vehicle.setDescription(rs.getString(4));
-                vehicle.setGarageId(Integer.parseInt(rs.getString(6)));
+                vehicle.setId(Integer.parseInt(rs.getString(1)));
+                vehicle.setModel(rs.getString(2));;
+                vehicle.setFactory(rs.getString(3));
+                vehicle.setCreateYear(Integer.parseInt(rs.getString(4)));
+                vehicle.setDescription(rs.getString(5));
+                vehicle.setGarageId(Integer.parseInt(rs.getString(7)));
 
                 vehicles.add(vehicle);
             }
