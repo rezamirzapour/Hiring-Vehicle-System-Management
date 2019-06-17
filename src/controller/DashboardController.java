@@ -62,6 +62,12 @@ public class DashboardController implements Initializable {
     @FXML
     private Button editButton;
 
+    @FXML
+    private Button toExcelButton;
+
+    @FXML
+    private Button toPdfButton;
+
     public void initialize(URL location, ResourceBundle resources) {
 
         loadBasicType();
@@ -104,7 +110,14 @@ public class DashboardController implements Initializable {
                 loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue());
             }
         });
+        toPdfButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DbConnection db = new DbConnection();
+                db.toPdf(Integer.parseInt(garageSelector.getValue().toString()));
 
+            }
+        });
     }
 
 
