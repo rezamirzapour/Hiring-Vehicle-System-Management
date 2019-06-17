@@ -85,7 +85,6 @@ public class DbConnection {
         try {
             Statement st = c.createStatement();
             ResultSet rs=st.executeQuery(getSQL);
-
             while(rs.next()){
                 String type = rs.getString(6);
                 Vehicle vehicle = new Vehicle();
@@ -101,6 +100,39 @@ public class DbConnection {
                 vehicle.setFactory(rs.getString(3));
                 vehicle.setCreateYear(Integer.parseInt(rs.getString(4)));
                 vehicle.setDescription(rs.getString(5));
+                vehicle.setVehicleType(rs.getString(6));
+                vehicle.setGarageId(Integer.parseInt(rs.getString(7)));
+
+                vehicles.add(vehicle);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return vehicles;
+    }
+
+    public List<Vehicle> getAllVehicle(int garageId) {
+        List vehicles = new LinkedList();
+        String getSQL="SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE ID = "+garageId+";";
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs=st.executeQuery(getSQL);
+            while(rs.next()){
+                String type = rs.getString(6);
+                Vehicle vehicle = new Vehicle();
+
+                if (type.equals("Bus")) { vehicle = new Bus(); }
+                else if(type.equals("Lorry")) { vehicle = new Lorry();}
+                else if(type.equals("Machine")) { vehicle = new Machine();}
+                else if(type.equals("Motor")) { vehicle = new Motor();}
+                else { vehicle = new Vehicle();}
+
+                vehicle.setId(Integer.parseInt(rs.getString(1)));
+                vehicle.setModel(rs.getString(2));;
+                vehicle.setFactory(rs.getString(3));
+                vehicle.setCreateYear(Integer.parseInt(rs.getString(4)));
+                vehicle.setDescription(rs.getString(5));
+                vehicle.setVehicleType(rs.getString(6));
                 vehicle.setGarageId(Integer.parseInt(rs.getString(7)));
 
                 vehicles.add(vehicle);

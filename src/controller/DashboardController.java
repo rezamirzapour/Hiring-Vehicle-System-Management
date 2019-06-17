@@ -127,7 +127,7 @@ public class DashboardController implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         for (int i = 0; i < db.getAllVehicle().size(); i++) {
             if (db.getAllVehicle().get(i).getGarageId() == garageId)
-            tbData.getItems().add(db.getAllVehicle().get(i));
+                tbData.getItems().add(db.getAllVehicle().get(i));
         }
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
@@ -144,11 +144,9 @@ public class DashboardController implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         if (type.equals("All")) {
             loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
-        }
-        else {
-            for (int i = 0; i < db.getAllVehicle().size(); i++) {
-                if (db.getAllVehicle().get(i).getGarageId() == garageId && db.getAllVehicle().get(i).getVehicleType().equals(type))
-                    tbData.getItems().add(db.getAllVehicle().get(i));
+        } else {
+            for (int i = 0; i < db.getAllVehicle(garageId).size(); i++) {
+                tbData.getItems().add(db.getAllVehicle(garageId).get(i));
             }
         }
         // Set Default Selected Row
