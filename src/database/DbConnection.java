@@ -178,7 +178,7 @@ public class DbConnection {
         }
         pdf.open();
         PdfPTable table = new PdfPTable(7);
-        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE ID = " + garageId + ";";
+        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
         try {
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(getSQL);
