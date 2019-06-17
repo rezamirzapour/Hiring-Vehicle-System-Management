@@ -2,6 +2,7 @@ package database;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Header;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -178,6 +179,13 @@ public class DbConnection {
         }
         pdf.open();
         PdfPTable table = new PdfPTable(7);
+        table.addCell(new PdfPCell(new Phrase("ID")));
+        table.addCell(new PdfPCell(new Phrase("MODEL")));
+        table.addCell(new PdfPCell(new Phrase("FACTORY")));
+        table.addCell(new PdfPCell(new Phrase("CREATE YEAR")));
+        table.addCell(new PdfPCell(new Phrase("DESCRIPTION")));
+        table.addCell(new PdfPCell(new Phrase("VEHICLE TYPE")));
+        table.addCell(new PdfPCell(new Phrase("GARAGE ID")));
         String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
         try {
             Statement st = c.createStatement();
