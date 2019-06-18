@@ -74,13 +74,13 @@ public class DashboardController implements Initializable {
         loadVehicles(0);
         loadGarageSelector();
 
+
         garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
                 loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
             }
         });
-
         deleteButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -107,19 +107,18 @@ public class DashboardController implements Initializable {
         filterComboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue());
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
             }
         });
         toPdfButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 DbConnection db = new DbConnection();
-                db.toPdf(Integer.parseInt(garageSelector.getValue().toString()));
+                db.toPdf(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue());
 
             }
         });
     }
-
 
     private void loadBasicType() {
         filterComboBox.getItems().add("All");
@@ -127,8 +126,8 @@ public class DashboardController implements Initializable {
         filterComboBox.getItems().add("Motor");
         filterComboBox.getItems().add("Bus");
         filterComboBox.getItems().add("Lorry");
+        filterComboBox.setValue("All");
     }
-
 
     private void loadVehicles(int garageId) {
         clearTableData(tbData);
@@ -139,36 +138,9 @@ public class DashboardController implements Initializable {
         createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        if (garageId == 0) {
-            for (int i = 0; i < db.getAllVehicle().size(); i++) {
-                tbData.getItems().add(db.getAllVehicle().get(i));
+            for (int i = 0; i < db.getAllVehicle(garageId, filterComboBox.getValue()).size(); i++) {
+                tbData.getItems().add(db.getAllVehicle(garageId, filterComboBox.getValue()).get(i));
             }
-        }else {
-            for (int i = 0; i < db.getAllVehicle(garageId).size(); i++) {
-                tbData.getItems().add(db.getAllVehicle(garageId).get(i));
-            }
-        }
-            // Set Default Selected Row
-            tbData.getSelectionModel().selectFirst();
-            db.close();
-
-    }
-
-    private void loadVehicles(int garageId, String type) {
-        clearTableData(tbData);
-        DbConnection db = new DbConnection();
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        model.setCellValueFactory(new PropertyValueFactory<>("model"));
-        factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
-        createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
-        description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        if (type.equals("All")) {
-            loadVehicles(Integer.parseInt(garageSelector.getValue().toString()));
-        } else {
-            for (int i = 0; i < db.getAllVehicle(garageId).size(); i++) {
-                tbData.getItems().add(db.getAllVehicle(garageId).get(i));
-            }
-        }
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
         db.close();
@@ -218,5 +190,4 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
-
 }

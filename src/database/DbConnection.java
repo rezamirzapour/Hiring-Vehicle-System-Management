@@ -89,86 +89,17 @@ public class DbConnection {
         return garageIds;
     }
 
-    public List<Vehicle> getAllVehicle() {
-        List vehicles = new LinkedList();
-        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
-        try {
-            Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery(getSQL);
-            while (rs.next()) {
-                String type = rs.getString(6);
-                Vehicle vehicle = new Vehicle();
-
-                if (type.equals("Bus")) {
-                    vehicle = new Bus();
-                } else if (type.equals("Lorry")) {
-                    vehicle = new Lorry();
-                } else if (type.equals("Machine")) {
-                    vehicle = new Machine();
-                } else if (type.equals("Motor")) {
-                    vehicle = new Motor();
-                } else {
-                    vehicle = new Vehicle();
-                }
-
-                vehicle.setId(Integer.parseInt(rs.getString(1)));
-                vehicle.setModel(rs.getString(2));
-                ;
-                vehicle.setFactory(rs.getString(3));
-                vehicle.setCreateYear(Integer.parseInt(rs.getString(4)));
-                vehicle.setDescription(rs.getString(5));
-                vehicle.setVehicleType(rs.getString(6));
-                vehicle.setGarageId(Integer.parseInt(rs.getString(7)));
-
-                vehicles.add(vehicle);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return vehicles;
-    }
-
-    public List<Vehicle> getAllVehicle(int garageId) {
-        List vehicles = new LinkedList();
-        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
-        try {
-            Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery(getSQL);
-            while (rs.next()) {
-                String type = rs.getString(6);
-                Vehicle vehicle = new Vehicle();
-
-                if (type.equals("Bus")) {
-                    vehicle = new Bus();
-                } else if (type.equals("Lorry")) {
-                    vehicle = new Lorry();
-                } else if (type.equals("Machine")) {
-                    vehicle = new Machine();
-                } else if (type.equals("Motor")) {
-                    vehicle = new Motor();
-                } else {
-                    vehicle = new Vehicle();
-                }
-
-                vehicle.setId(Integer.parseInt(rs.getString("ID")));
-                vehicle.setModel(rs.getString("MODEL"));
-                vehicle.setFactory(rs.getString("FACTORY"));
-                vehicle.setCreateYear(Integer.parseInt(rs.getString("CREATE_YEAR")));
-                vehicle.setDescription(rs.getString("DESCRIPTION"));
-                vehicle.setVehicleType(rs.getString("VEHICLE_TYPE"));
-                vehicle.setGarageId(Integer.parseInt(rs.getString("GARAGE_ID")));
-
-                vehicles.add(vehicle);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return vehicles;
-    }
-
     public List<Vehicle> getAllVehicle(int garageId, String vehicleType) {
         List vehicles = new LinkedList();
-        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = "+vehicleType+";";
+        String getSQL;
+        if (garageId != 0) {
+            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId+ ";";
+            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '"+vehicleType+"';";
+        }else {
+            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
+            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '"+vehicleType+"';";
+        }
+
         try {
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(getSQL);
@@ -224,8 +155,13 @@ public class DbConnection {
         table.addCell(new PdfPCell(new Phrase("VEHICLE TYPE")));
         table.addCell(new PdfPCell(new Phrase("GARAGE ID")));
         String getSQL;
-        if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
-        else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = "+vehicleType+";";
+        if (garageId != 0) {
+            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId+ ";";
+            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '"+vehicleType+"';";
+        }else {
+            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
+            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '"+vehicleType+"';";
+        }
         try {
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(getSQL);

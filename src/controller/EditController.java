@@ -67,11 +67,29 @@ public class EditController extends Controller {
     @FXML
     private Button backButton;
 
+    @FXML
+    private ComboBox<String> filterComboBox;
+
     public void initialize(URL location, ResourceBundle resources) {
-        loadGarageSelector(garageSelector);
-        loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), tbData, id, model, factory, createYear, description);
-        loadBasicType(vehicleType);
+        filterComboBox.getItems().add("All");
+        filterComboBox.setValue("All");
         vehicleType.setValue("Machine");
+        loadBasicType(vehicleType);
+        loadBasicType(filterComboBox);
+        loadGarageSelector(garageSelector);
+        loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+        filterComboBox.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+            }
+        });
+        garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(javafx.event.ActionEvent event) {
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+            }
+        });
         editButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

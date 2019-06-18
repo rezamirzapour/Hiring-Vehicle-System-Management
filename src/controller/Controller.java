@@ -27,7 +27,7 @@ public class Controller implements Initializable{
 
     }
 
-    protected void loadVehicles(int garageId, TableView<Vehicle> tbData, TableColumn<?, ?> id, TableColumn<?, ?> model, TableColumn<?, ?> factory, TableColumn<?, ?> createYear, TableColumn<?, ?> description) {
+    protected void loadVehicles(int garageId, String vehicleType, TableView<Vehicle> tbData, TableColumn<?, ?> id, TableColumn<?, ?> model, TableColumn<?, ?> factory, TableColumn<?, ?> createYear, TableColumn<?, ?> description) {
         clearTableData(tbData);
         DbConnection db = new DbConnection();
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -35,9 +35,8 @@ public class Controller implements Initializable{
         factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
         createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        for (int i = 0; i < db.getAllVehicle().size(); i++) {
-            if (db.getAllVehicle().get(i).getGarageId() == garageId)
-                tbData.getItems().add(db.getAllVehicle().get(i));
+        for (int i = 0; i < db.getAllVehicle(garageId, vehicleType).size(); i++) {
+            tbData.getItems().add(db.getAllVehicle(garageId, vehicleType).get(i));
         }
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
@@ -49,11 +48,12 @@ public class Controller implements Initializable{
     }
 
     protected void loadGarageSelector(ComboBox<Integer> garageSelector) {
+        garageSelector.getItems().add(0);
         DbConnection db = new DbConnection();
         for (int i = 0; i < db.getGarageIds().size(); i++) {
             garageSelector.getItems().add(db.getGarageIds().get(i));
         }
-        garageSelector.setValue(1);
+        garageSelector.setValue(0);
         db.close();
     }
 

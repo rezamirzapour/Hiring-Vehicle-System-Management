@@ -147,18 +147,20 @@
                      <children>
                         <Pane prefHeight="477.0" prefWidth="442.0">
                            <children>
-                              <ComboBox fx:id="vehicleType" layoutX="245.0" layoutY="50.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #EEAC4C;" />
-                              <Label layoutX="54.0" layoutY="50.0" prefHeight="17.0" prefWidth="139.0" text="Type of Vehicle" />
-                              <Button fx:id="editButton" layoutX="147.0" layoutY="300.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #EEAC4C;" text="Edit" textAlignment="CENTER" textFill="WHITE" />
-                              <Label layoutX="54.0" layoutY="100.0" text="Model" />
-                              <TextField fx:id="modelTextField" layoutX="245.0" layoutY="100.0" />
-                              <Label layoutX="52.0" layoutY="150.0" text="Factory" />
-                              <TextField fx:id="factoryTextField" layoutX="245.0" layoutY="146.0" />
-                              <Label layoutX="52.0" layoutY="200.0" text="Createa Year" />
-                              <TextField fx:id="createTextField" layoutX="245.0" layoutY="200.0" />
-                              <Label layoutX="54.0" layoutY="250.0" text="Description" />
-                              <TextField fx:id="descriptionTextField" layoutX="245.0" layoutY="250.0" />
-                              <Button fx:id="backButton" layoutX="147.0" layoutY="350.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Back" textAlignment="CENTER" textFill="WHITE" />
+                              <ComboBox fx:id="vehicleType" layoutX="245.0" layoutY="100.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #EEAC4C;" />
+                              <Label layoutX="54.0" layoutY="100.0" prefHeight="17.0" prefWidth="139.0" text="Type of Vehicle" />
+                              <Button fx:id="editButton" layoutX="147.0" layoutY="350.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #EEAC4C;" text="Edit" textAlignment="CENTER" textFill="WHITE" />
+                              <Label layoutX="54.0" layoutY="150.0" text="Model" />
+                              <TextField fx:id="modelTextField" layoutX="245.0" layoutY="150.0" />
+                              <Label layoutX="52.0" layoutY="200.0" text="Factory" />
+                              <TextField fx:id="factoryTextField" layoutX="245.0" layoutY="200.0" />
+                              <Label layoutX="52.0" layoutY="250.0" text="Createa Year" />
+                              <TextField fx:id="createTextField" layoutX="245.0" layoutY="250.0" />
+                              <Label layoutX="54.0" layoutY="300.0" text="Description" />
+                              <TextField fx:id="descriptionTextField" layoutX="245.0" layoutY="300.0" />
+                              <Button fx:id="backButton" layoutX="147.0" layoutY="400.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Back" textAlignment="CENTER" textFill="WHITE" />
+                              <ComboBox fx:id="filterComboBox" layoutX="170.0" layoutY="37.0" prefWidth="150.0" promptText="Filter" style="-fx-background-color: #EEAC4C;" />
+                              <Label layoutX="179.0" layoutY="14.0" text="Filter By Type of Vehicles" />
                            </children>
                         </Pane>
                      </children>
