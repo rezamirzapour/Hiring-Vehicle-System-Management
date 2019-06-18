@@ -166,7 +166,45 @@ public class DbConnection {
         return vehicles;
     }
 
-    public void toPdf(int garageId){
+    public List<Vehicle> getAllVehicle(int garageId, String vehicleType) {
+        List vehicles = new LinkedList();
+        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = "+vehicleType+";";
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(getSQL);
+            while (rs.next()) {
+                String type = rs.getString("VEHICLE_TYPE");
+                Vehicle vehicle = new Vehicle();
+
+                if (type.equals("Bus")) {
+                    vehicle = new Bus();
+                } else if (type.equals("Lorry")) {
+                    vehicle = new Lorry();
+                } else if (type.equals("Machine")) {
+                    vehicle = new Machine();
+                } else if (type.equals("Motor")) {
+                    vehicle = new Motor();
+                } else {
+                    vehicle = new Vehicle();
+                }
+
+                vehicle.setId(Integer.parseInt(rs.getString("ID")));
+                vehicle.setModel(rs.getString("MODEL"));
+                vehicle.setFactory(rs.getString("FACTORY"));
+                vehicle.setCreateYear(Integer.parseInt(rs.getString("CREATE_YEAR")));
+                vehicle.setDescription(rs.getString("DESCRIPTION"));
+                vehicle.setVehicleType(rs.getString("VEHICLE_TYPE"));
+                vehicle.setGarageId(Integer.parseInt(rs.getString("GARAGE_ID")));
+
+                vehicles.add(vehicle);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return vehicles;
+    }
+
+    public void toPdf(int garageId, String vehicleType){
         Document pdf = new Document();
         Date date = new Date();
         try {
@@ -185,7 +223,9 @@ public class DbConnection {
         table.addCell(new PdfPCell(new Phrase("DESCRIPTION")));
         table.addCell(new PdfPCell(new Phrase("VEHICLE TYPE")));
         table.addCell(new PdfPCell(new Phrase("GARAGE ID")));
-        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
+        String getSQL;
+        if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
+        else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = "+vehicleType+";";
         try {
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(getSQL);
