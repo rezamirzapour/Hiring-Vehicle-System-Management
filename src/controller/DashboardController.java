@@ -71,7 +71,7 @@ public class DashboardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         loadBasicType();
-        loadVehicles(1);
+        loadVehicles(0);
         loadGarageSelector();
 
         garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
@@ -138,13 +138,20 @@ public class DashboardController implements Initializable {
         factory.setCellValueFactory(new PropertyValueFactory<>("factory"));
         createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
-        for (int i = 0; i < db.getAllVehicle().size(); i++) {
-            if (db.getAllVehicle().get(i).getGarageId() == garageId)
+
+        if (garageId == 0) {
+            for (int i = 0; i < db.getAllVehicle().size(); i++) {
                 tbData.getItems().add(db.getAllVehicle().get(i));
+            }
+        }else {
+            for (int i = 0; i < db.getAllVehicle(garageId).size(); i++) {
+                tbData.getItems().add(db.getAllVehicle(garageId).get(i));
+            }
         }
-        // Set Default Selected Row
-        tbData.getSelectionModel().selectFirst();
-        db.close();
+            // Set Default Selected Row
+            tbData.getSelectionModel().selectFirst();
+            db.close();
+
     }
 
     private void loadVehicles(int garageId, String type) {
@@ -172,11 +179,12 @@ public class DashboardController implements Initializable {
     }
 
     private void loadGarageSelector() {
+        garageSelector.getItems().add(0);
         DbConnection db = new DbConnection();
         for (int i = 0; i < db.getGarageIds().size(); i++) {
             garageSelector.getItems().add(db.getGarageIds().get(i));
         }
-        garageSelector.setValue(1);
+        garageSelector.setValue(0);
         db.close();
     }
 

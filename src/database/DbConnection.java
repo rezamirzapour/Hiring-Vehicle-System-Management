@@ -79,7 +79,7 @@ public class DbConnection {
         List<Integer> garageIds = new LinkedList<>();
         try {
             Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery("SELECT DISTINCT garage_id FROM VEHICLE");
+            ResultSet rs = st.executeQuery("SELECT DISTINCT garage_id FROM VEHICLE ORDER BY GARAGE_ID;");
             while (rs.next()) {
                 garageIds.add(Integer.parseInt(rs.getString(1)));
             }
@@ -130,7 +130,7 @@ public class DbConnection {
 
     public List<Vehicle> getAllVehicle(int garageId) {
         List vehicles = new LinkedList();
-        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE ID = " + garageId + ";";
+        String getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
         try {
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(getSQL);
@@ -152,7 +152,6 @@ public class DbConnection {
 
                 vehicle.setId(Integer.parseInt(rs.getString("ID")));
                 vehicle.setModel(rs.getString("MODEL"));
-                ;
                 vehicle.setFactory(rs.getString("FACTORY"));
                 vehicle.setCreateYear(Integer.parseInt(rs.getString("CREATE_YEAR")));
                 vehicle.setDescription(rs.getString("DESCRIPTION"));
