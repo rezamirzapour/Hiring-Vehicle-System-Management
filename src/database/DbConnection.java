@@ -2,15 +2,21 @@ package database;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Header;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import model.vehicle.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,11 +99,15 @@ public class DbConnection {
         List vehicles = new LinkedList();
         String getSQL;
         if (garageId != 0) {
-            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId+ ";";
-            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '"+vehicleType+"';";
-        }else {
-            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
-            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '"+vehicleType+"';";
+            if (vehicleType.equals("All"))
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
+            else
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '" + vehicleType + "';";
+        } else {
+            if (vehicleType.equals("All"))
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
+            else
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '" + vehicleType + "';";
         }
 
         try {
@@ -135,11 +145,11 @@ public class DbConnection {
         return vehicles;
     }
 
-    public void toPdf(int garageId, String vehicleType){
+    public void toPdf(int garageId, String vehicleType) {
         Document pdf = new Document();
         Date date = new Date();
         try {
-            PdfWriter.getInstance(pdf, new FileOutputStream("data"+ date.getTime() +".pdf"));
+            PdfWriter.getInstance(pdf, new FileOutputStream("Data-"+new Date().getHours()+"-" +new Date().getMinutes()+"-"+new Date().getSeconds()+ ".pdf"));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -156,11 +166,15 @@ public class DbConnection {
         table.addCell(new PdfPCell(new Phrase("GARAGE ID")));
         String getSQL;
         if (garageId != 0) {
-            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId+ ";";
-            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '"+vehicleType+"';";
-        }else {
-            if (vehicleType.equals("All")) getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
-            else getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '"+vehicleType+"';";
+            if (vehicleType.equals("All"))
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
+            else
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '" + vehicleType + "';";
+        } else {
+            if (vehicleType.equals("All"))
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
+            else
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '" + vehicleType + "';";
         }
         try {
             Statement st = c.createStatement();
@@ -180,8 +194,63 @@ public class DbConnection {
             pdf.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (Exception e) {
+    }
+
+    public void toExcel(int garageId, String vehicleType) {
+        Workbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("sheet");
+        int rowNum = 1;
+        Row row = sheet.createRow(0);
+        row.createCell(0).setCellValue("ID");
+        row.createCell(1).setCellValue("Model");
+        row.createCell(2).setCellValue("Factory");
+        row.createCell(3).setCellValue("Create Year");
+        row.createCell(4).setCellValue("Description");
+        row.createCell(5).setCellValue("Vehicle Type");
+        row.createCell(6).setCellValue("Garage ID");
+        String getSQL;
+        if (garageId != 0) {
+            if (vehicleType.equals("All"))
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + ";";
+            else
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE GARAGE_ID = " + garageId + " AND VEHICLE_TYPE = '" + vehicleType + "';";
+        } else {
+            if (vehicleType.equals("All"))
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE;";
+            else
+                getSQL = "SELECT id,model,factory,create_year,description,vehicle_type,garage_id FROM VEHICLE WHERE VEHICLE_TYPE = '" + vehicleType + "';";
+        }
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(getSQL);
+
+            while (rs.next()) {
+                row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(rs.getString("ID"));
+                row.createCell(1).setCellValue(rs.getString("MODEL"));
+                row.createCell(2).setCellValue(rs.getString("FACTORY"));
+                row.createCell(3).setCellValue(rs.getString("CREATE_YEAR"));
+                row.createCell(4).setCellValue(rs.getString("DESCRIPTION"));
+                row.createCell(5).setCellValue(rs.getString("VEHICLE_TYPE"));
+                row.createCell(6).setCellValue(rs.getString("GARAGE_ID"));
+            }
+            st.close();
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        FileOutputStream data;
+        try {
+            data = new FileOutputStream(new File("Data-"+new Date().getHours()+"-" +new Date().getMinutes()+"-"+new Date().getSeconds()+".xls"));
+            workbook.write(data);
+            data.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

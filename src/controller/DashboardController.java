@@ -118,6 +118,13 @@ public class DashboardController implements Initializable {
 
             }
         });
+        toExcelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                DbConnection db = new DbConnection();
+                db.toExcel(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue());
+            }
+        });
     }
 
     private void loadBasicType() {
