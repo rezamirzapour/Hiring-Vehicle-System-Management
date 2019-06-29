@@ -68,6 +68,10 @@ public class DashboardController implements Initializable {
     @FXML
     private Button toPdfButton;
 
+    @FXML
+    private Button hireButton;
+
+
     public void initialize(URL location, ResourceBundle resources) {
 
         loadBasicType();
@@ -125,6 +129,12 @@ public class DashboardController implements Initializable {
                 db.toExcel(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue());
             }
         });
+        hireButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadHireScene();
+            }
+        });
     }
 
     private void loadBasicType() {
@@ -145,9 +155,9 @@ public class DashboardController implements Initializable {
         createYear.setCellValueFactory(new PropertyValueFactory<>("createYear"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-            for (int i = 0; i < db.getAllVehicle(garageId, filterComboBox.getValue()).size(); i++) {
-                tbData.getItems().add(db.getAllVehicle(garageId, filterComboBox.getValue()).get(i));
-            }
+        for (int i = 0; i < db.getAllVehicle(garageId, filterComboBox.getValue()).size(); i++) {
+            tbData.getItems().add(db.getAllVehicle(garageId, filterComboBox.getValue()).get(i));
+        }
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
         db.close();
@@ -191,6 +201,16 @@ public class DashboardController implements Initializable {
     private void loadAddEditScene() {
         try {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Edit.fxml"));
+            anchorPane.getChildren().removeAll();
+            anchorPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadHireScene() {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Hire.fxml"));
             anchorPane.getChildren().removeAll();
             anchorPane.getChildren().setAll(pane);
         } catch (IOException e) {
