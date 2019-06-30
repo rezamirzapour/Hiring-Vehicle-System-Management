@@ -7,7 +7,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -18,7 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,7 +48,6 @@ public class DbConnection {
             st.executeUpdate(insertSQL);
             System.out.println("Inserted!");
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -145,11 +142,40 @@ public class DbConnection {
         return vehicles;
     }
 
+    public void hireVehicle(int vehicleId, String userPhone, String priod) {
+        int date;
+        switch (priod) {
+            case "1 Day":
+                date = 1;
+                break;
+            case "1 Week":
+                date = 7;
+                break;
+            case "1 Month":
+                date = 30;
+                break;
+            case "1 Year":
+                date = 365;
+                break;
+            default:
+                date = 1;
+        }
+
+        String insertSQL = "INSERT INTO HIRED_VEHICLE (VEHICLE_ID, USER_PHONE, GET_DATE, RETURN_DATE) values(" + vehicleId + ", '" + userPhone + "', CURRENT_DATE , CURRENT_DATE + CAST(" + date + " AS DAY ));";
+        try {
+            Statement st = c.createStatement();
+            st.executeUpdate(insertSQL);
+            System.out.println("Inserted!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void toPdf(int garageId, String vehicleType) {
         Document pdf = new Document();
         Date date = new Date();
         try {
-            PdfWriter.getInstance(pdf, new FileOutputStream("Data-"+new Date().getHours()+"-" +new Date().getMinutes()+"-"+new Date().getSeconds()+ ".pdf"));
+            PdfWriter.getInstance(pdf, new FileOutputStream("Data-" + new Date().getHours() + "-" + new Date().getMinutes() + "-" + new Date().getSeconds() + ".pdf"));
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -244,7 +270,7 @@ public class DbConnection {
         }
         FileOutputStream data;
         try {
-            data = new FileOutputStream(new File("Data-"+new Date().getHours()+"-" +new Date().getMinutes()+"-"+new Date().getSeconds()+".xls"));
+            data = new FileOutputStream(new File("Data-" + new Date().getHours() + "-" + new Date().getMinutes() + "-" + new Date().getSeconds() + ".xls"));
             workbook.write(data);
             data.close();
 

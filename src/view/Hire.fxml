@@ -148,15 +148,17 @@
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="157.0" layoutY="14.0" text="Filter By Type Of Vehicle" />
-                              <ComboBox fx:id="filterComboBox" layoutX="146.0" layoutY="31.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #D7534E;" />
+                              <ComboBox fx:id="filterComboBox" layoutX="146.0" layoutY="41.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #D7534E;" />
                            </children>
                         </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
+                        <Pane prefHeight="280.0" prefWidth="442.0">
                            <children>
-                              <Button fx:id="hireButton" layoutX="157.0" layoutY="109.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #EEAC4C;" text="Hire" textAlignment="CENTER" textFill="WHITE" />
-                              <TextField fx:id="phone" layoutX="157.0" layoutY="57.0" />
-                              <Label layoutX="157.0" layoutY="22.0" text="Enter Your Phone Number" />
-                              <Button fx:id="backButton" layoutX="157.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Back" textAlignment="CENTER" textFill="WHITE" />
+                              <Button fx:id="hireButton" layoutX="157.0" layoutY="167.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #EEAC4C;" text="Hire" textAlignment="CENTER" textFill="WHITE" />
+                              <TextField fx:id="userPhone" layoutX="157.0" layoutY="29.0" />
+                              <Label layoutX="157.0" layoutY="7.0" text="Enter Your Phone Number" />
+                              <Button fx:id="backButton" layoutX="157.0" layoutY="221.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: #D7534E;" text="Back" textAlignment="CENTER" textFill="WHITE" />
+                              <ComboBox fx:id="priodComboBox" layoutX="156.0" layoutY="114.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #5CB55B;" />
+                              <Label layoutX="157.0" layoutY="78.0" prefHeight="17.0" prefWidth="150.0" text="Select Priod Time" textAlignment="CENTER" />
                            </children>
                         </Pane>
                      </children>

@@ -1,5 +1,6 @@
 package controller;
 
+import database.DbConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,6 +38,8 @@ public class HireController extends Controller {
     @FXML
     private ComboBox<Integer> garageSelector;
 
+    @FXML
+    private Button hireButton;
 
     @FXML
     private Button backButton;
@@ -44,10 +47,16 @@ public class HireController extends Controller {
     @FXML
     private ComboBox<String> filterComboBox;
 
+    @FXML
+    private ComboBox<String> priodComboBox;
+
+    @FXML
+    private TextField userPhone;
+
     public void initialize(URL location, ResourceBundle resources) {
         filterComboBox.getItems().add("All");
         filterComboBox.setValue("All");
-
+        loadBasicPriodTime(priodComboBox);
         loadBasicType(filterComboBox);
         loadGarageSelector(garageSelector);
         loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
@@ -61,6 +70,12 @@ public class HireController extends Controller {
             @Override
             public void handle(javafx.event.ActionEvent event) {
                 loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+            }
+        });
+        hireButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                hire();
             }
         });
         backButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -80,6 +95,18 @@ public class HireController extends Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadBasicPriodTime(ComboBox<String> priodComboBox) {
+        priodComboBox.getItems().add("1 Day");
+        priodComboBox.getItems().add("1 Week");
+        priodComboBox.getItems().add("1 Month");
+        priodComboBox.getItems().add("1 Year");
+        priodComboBox.setValue("1 Day");
+    }
+
+    private void hire() {
+        new DbConnection().hireVehicle(tbData.getSelectionModel().getSelectedItem().getId(), userPhone.getText(), priodComboBox.getValue());
     }
 }
 
