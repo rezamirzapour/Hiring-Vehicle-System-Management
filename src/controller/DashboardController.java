@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,14 +8,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Garage;
-import model.vehicle.Vehicle;
+import model.vehicle.*;
 import database.DbConnection;
 
 import java.io.IOException;
@@ -71,9 +69,23 @@ public class DashboardController implements Initializable {
     @FXML
     private Button hireButton;
 
+    @FXML
+    private Label busCount;
+
+    @FXML
+    private Label machineCount;
+
+    @FXML
+    private Label lorryCount;
+
+    @FXML
+    private Label motorCount;
 
     public void initialize(URL location, ResourceBundle resources) {
-
+        busCount.setText("0");
+        machineCount.setText("0");
+        lorryCount.setText("0");
+        motorCount.setText("0");
         loadBasicType();
         loadVehicles(0);
         loadGarageSelector();
@@ -147,6 +159,11 @@ public class DashboardController implements Initializable {
     }
 
     private void loadVehicles(int garageId) {
+        int busCounter = 0;
+        int machineCounter = 0;
+        int lorryCounter = 0;
+        int motorCounter = 0;
+
         clearTableData(tbData);
         DbConnection db = new DbConnection();
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -157,7 +174,17 @@ public class DashboardController implements Initializable {
 
         for (int i = 0; i < db.getAllVehicle(garageId, filterComboBox.getValue()).size(); i++) {
             tbData.getItems().add(db.getAllVehicle(garageId, filterComboBox.getValue()).get(i));
+            if (db.getAllVehicle(garageId, filterComboBox.getValue()).get(i) instanceof Bus) {
+                busCounter++;
+            } else if (db.getAllVehicle(garageId, filterComboBox.getValue()).get(i) instanceof Machine)
+                machineCounter++;
+            else if (db.getAllVehicle(garageId, filterComboBox.getValue()).get(i) instanceof Lorry) lorryCounter++;
+            else if (db.getAllVehicle(garageId, filterComboBox.getValue()).get(i) instanceof Motor) motorCounter++;
         }
+        machineCount.setText(String.valueOf(machineCounter));
+        busCount.setText(String.valueOf(busCounter));
+        lorryCount.setText(String.valueOf(lorryCounter));
+        motorCount.setText(String.valueOf(motorCounter));
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
         db.close();

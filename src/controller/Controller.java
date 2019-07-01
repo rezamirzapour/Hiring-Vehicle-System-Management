@@ -12,9 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Garage;
-import model.vehicle.Bus;
-import model.vehicle.Machine;
-import model.vehicle.Vehicle;
+import model.vehicle.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +25,12 @@ public class Controller implements Initializable{
 
     }
 
-    protected void loadVehicles(int garageId, String vehicleType, TableView<Vehicle> tbData, TableColumn<?, ?> id, TableColumn<?, ?> model, TableColumn<?, ?> factory, TableColumn<?, ?> createYear, TableColumn<?, ?> description) {
+    protected void loadVehicles(int garageId, String vehicleType, TableView<Vehicle> tbData, TableColumn<?, ?> id, TableColumn<?, ?> model, TableColumn<?, ?> factory, TableColumn<?, ?> createYear, TableColumn<?, ?> description, Label busCount, Label machineCount, Label lorryCount, Label motorCount) {
+        int busCounter = 0;
+        int machineCounter = 0;
+        int lorryCounter = 0;
+        int motorCounter = 0;
+
         clearTableData(tbData);
         DbConnection db = new DbConnection();
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -37,7 +40,17 @@ public class Controller implements Initializable{
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         for (int i = 0; i < db.getAllVehicle(garageId, vehicleType).size(); i++) {
             tbData.getItems().add(db.getAllVehicle(garageId, vehicleType).get(i));
+            if (db.getAllVehicle(garageId, vehicleType).get(i) instanceof Bus) {
+                busCounter++;
+            } else if (db.getAllVehicle(garageId, vehicleType).get(i) instanceof Machine)
+                machineCounter++;
+            else if (db.getAllVehicle(garageId, vehicleType).get(i) instanceof Lorry) lorryCounter++;
+            else if (db.getAllVehicle(garageId, vehicleType).get(i) instanceof Motor) motorCounter++;
         }
+        machineCount.setText(String.valueOf(machineCounter));
+        busCount.setText(String.valueOf(busCounter));
+        lorryCount.setText(String.valueOf(lorryCounter));
+        motorCount.setText(String.valueOf(motorCounter));
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
         db.close();

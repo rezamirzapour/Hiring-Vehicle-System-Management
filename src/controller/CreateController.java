@@ -71,6 +71,18 @@ public class CreateController extends Controller {
     @FXML
     private ComboBox<String> filterComboBox;
 
+    @FXML
+    private Label busCount;
+
+    @FXML
+    private Label machineCount;
+
+    @FXML
+    private Label lorryCount;
+
+    @FXML
+    private Label motorCount;
+
     public void initialize(URL location, ResourceBundle resources) {
         filterComboBox.getItems().add("All");
         filterComboBox.setValue("All");
@@ -78,17 +90,17 @@ public class CreateController extends Controller {
         loadBasicType(vehicleType);
         loadBasicType(filterComboBox);
         loadGarageSelector(garageSelector);
-        loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+        loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description, busCount, machineCount, lorryCount, motorCount);
         filterComboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description, busCount, machineCount, lorryCount, motorCount);
             }
         });
         garageSelector.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description);
+                loadVehicles(Integer.parseInt(garageSelector.getValue().toString()), filterComboBox.getValue(), tbData, id, model, factory, createYear, description, busCount, machineCount, lorryCount, motorCount);
             }
         });
         createButton.setOnAction(new EventHandler<ActionEvent>() {

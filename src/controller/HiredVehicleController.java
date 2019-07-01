@@ -9,6 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Bill;
+import model.vehicle.Bus;
+import model.vehicle.Lorry;
+import model.vehicle.Machine;
+import model.vehicle.Motor;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,22 +62,29 @@ public class HiredVehicleController extends Controller {
     private TableColumn<Bill, Integer> incomeMoney;
 
     @FXML
-    private ComboBox<Integer> garageSelector;
-
-    @FXML
     private ComboBox<String> filterComboBox;
 
     @FXML
-    private Button deleteButton;
+    private Button backButton;
+
 
     @FXML
-    private Button backButton;
+    private Label busCount;
+
+    @FXML
+    private Label machineCount;
+
+    @FXML
+    private Label lorryCount;
+
+    @FXML
+    private Label motorCount;
 
     public void initialize(URL location, ResourceBundle resources) {
         filterComboBox.getItems().add("All");
         filterComboBox.setValue("All");
         loadBasicType(filterComboBox);
-        loadTable(tbData, totalIncome, filterComboBox.getValue());
+        loadTable(tbData, totalIncome);
 
         backButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -85,13 +96,18 @@ public class HiredVehicleController extends Controller {
         filterComboBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                loadTable(tbData, totalIncome, filterComboBox.getValue());
+                loadTable(tbData, totalIncome);
             }
         });
     }
 
-    private void loadTable(TableView<Bill> tbData, Label totalIncome, String type) {
+    private void loadTable(TableView<Bill> tbData, Label totalIncome) {
         int income = 0;
+        int busCounter = 0;
+        int machineCounter = 0;
+        int lorryCounter = 0;
+        int motorCounter = 0;
+
         tbData.getItems().clear();
         userPhone.setCellValueFactory(new PropertyValueFactory<>("userPhone"));
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -109,8 +125,29 @@ public class HiredVehicleController extends Controller {
             Bill bill = db.getBill(filterComboBox.getValue()).get(i);
             income += bill.getIncomeMoney();
             tbData.getItems().add(bill);
+            totalIncome.setText(String.valueOf(income));
+
+            switch (bill.getVehicleType()) {
+                case "Bus":
+                    busCounter++;
+                    break;
+                case "Machine":
+                    machineCounter++;
+                    break;
+                case "Lorry":
+                    lorryCounter++;
+                    break;
+                case "Motor":
+                    motorCounter++;
+                    break;
+            }
+            machineCount.setText(String.valueOf(machineCounter));
+            busCount.setText(String.valueOf(busCounter));
+            lorryCount.setText(String.valueOf(lorryCounter));
+            motorCount.setText(String.valueOf(motorCounter));
+
+
         }
-        totalIncome.setText(String.valueOf(income));
         db.close();
         // Set Default Selected Row
         tbData.getSelectionModel().selectFirst();
