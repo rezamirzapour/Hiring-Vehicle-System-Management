@@ -9,10 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import model.Bill;
-import model.vehicle.Bus;
-import model.vehicle.Lorry;
-import model.vehicle.Machine;
-import model.vehicle.Motor;
 
 import java.io.IOException;
 import java.net.URL;

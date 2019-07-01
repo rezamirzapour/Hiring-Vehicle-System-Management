@@ -1,8 +1,5 @@
 package controller;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,13 +8,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import model.Garage;
 import model.vehicle.*;
 import database.DbConnection;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
