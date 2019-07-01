@@ -6,6 +6,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import model.Bill;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -143,6 +144,31 @@ public class DbConnection {
     }
 
     public void hireVehicle(int vehicleId, String userPhone, String priod) {
+        int incomeMoney = 1;
+        String getType = "SELECT VEHICLE_TYPE FROM VEHICLE WHERE ID = " + vehicleId;
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(getType);
+            switch (rs.getString("VEHICLE_TYPE")) {
+                case "Machine":
+                    incomeMoney = new Machine().getBasicPrice();
+                    break;
+                case "Motor":
+                    incomeMoney = new Motor().getBasicPrice();
+                    break;
+                case "Lorry":
+                    incomeMoney = new Lorry().getBasicPrice();
+                    break;
+                case "Bus":
+                    incomeMoney = new Bus().getBasicPrice();
+                    break;
+                default:
+                    incomeMoney = 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         int date;
         switch (priod) {
             case "1 Day":
@@ -161,7 +187,7 @@ public class DbConnection {
                 date = 1;
         }
 
-        String insertSQL = "INSERT INTO HIRED_VEHICLE (VEHICLE_ID, USER_PHONE, GET_DATE, RETURN_DATE) values(" + vehicleId + ", '" + userPhone + "', CURRENT_DATE , CURRENT_DATE + CAST(" + date + " AS DAY ));";
+        String insertSQL = "INSERT INTO HIRED_VEHICLE (VEHICLE_ID, USER_PHONE, GET_DATE, RETURN_DATE, INCOME_MONEY) values(" + vehicleId + ", '" + userPhone + "', CURRENT_DATE , CURRENT_DATE + CAST(" + date + " AS DAY ), " + incomeMoney + ");";
         try {
             Statement st = c.createStatement();
             st.executeUpdate(insertSQL);
@@ -169,6 +195,47 @@ public class DbConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Bill> getBill(String vehicleType) {
+        List<Bill> bills = new LinkedList<>();
+        String getSQL;
+        switch (vehicleType) {
+            case "All":
+                getSQL = "SELECT USER_PHONE, ID, MODEL, FACTORY, CREATE_YEAR, DESCRIPTION, VEHICLE_TYPE, GET_DATE, RETURN_DATE, INCOME_MONEY " +
+                        "FROM VEHICLE " +
+                        "JOIN HIRED_VEHICLE ON HIRED_VEHICLE.VEHICLE_ID = VEHICLE.ID";
+                break;
+            default:
+                getSQL = "SELECT USER_PHONE, ID, MODEL, FACTORY, CREATE_YEAR, DESCRIPTION, VEHICLE_TYPE, GET_DATE, RETURN_DATE, INCOME_MONEY " +
+                        "FROM VEHICLE " +
+                        "JOIN HIRED_VEHICLE ON HIRED_VEHICLE.VEHICLE_ID = VEHICLE.ID " +
+                        "WHERE VEHICLE.VEHICLE_TYPE = '"+vehicleType+"'";
+        }
+
+
+        try {
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(getSQL);
+            while (rs.next()) {
+                Bill bill = new Bill();
+                bill.setUserPhone(rs.getString("USER_PHONE"));
+                bill.setId(Integer.parseInt(rs.getString("ID")));
+                bill.setModel(rs.getString("MODEL"));
+                bill.setFactory(rs.getString("FACTORY"));
+                bill.setCreateYear(Integer.parseInt(rs.getString("CREATE_YEAR")));
+                bill.setDescription(rs.getString("DESCRIPTION"));
+                bill.setVehicleType(rs.getString("VEHICLE_TYPE"));
+                bill.setGetDate(rs.getString("GET_DATE"));
+                bill.setReturnDate(rs.getString("RETURN_DATE"));
+                bill.setIncomeMoney(Integer.parseInt(rs.getString("INCOME_MONEY")));
+                bills.add(bill);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return bills;
     }
 
     public void toPdf(int garageId, String vehicleType) {

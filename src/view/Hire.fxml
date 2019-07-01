@@ -121,7 +121,7 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TableView fx:id="tbData" prefHeight="349.0" prefWidth="1066.0" stylesheets="@../resource/css/fullpackstyling.css">
+                  <TableView fx:id="tbData" prefHeight="349.0" prefWidth="1066.0" stylesheets="@../resource/fullpackstyling.css">
                      <columns>
                         <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="model" prefWidth="75.0" text="Model" />
@@ -149,6 +149,7 @@
                            <children>
                               <Label layoutX="157.0" layoutY="14.0" text="Filter By Type Of Vehicle" />
                               <ComboBox fx:id="filterComboBox" layoutX="146.0" layoutY="41.0" prefWidth="150.0" promptText="Chose ..." style="-fx-background-color: #D7534E;" />
+                              <Button fx:id="goToHiredListButton" layoutX="17.0" layoutY="97.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="410.0" style="-fx-background-color: #3A84C3;" text="Show Hired Vehicles List" textAlignment="CENTER" textFill="WHITE" />
                            </children>
                         </Pane>
                         <Pane prefHeight="280.0" prefWidth="442.0">

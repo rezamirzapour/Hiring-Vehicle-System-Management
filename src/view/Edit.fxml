@@ -121,7 +121,7 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TableView fx:id="tbData" prefHeight="349.0" prefWidth="1066.0" stylesheets="@../resource/css/fullpackstyling.css">
+                  <TableView fx:id="tbData" prefHeight="349.0" prefWidth="1066.0" stylesheets="@../resource/fullpackstyling.css">
                      <columns>
                         <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
                         <TableColumn fx:id="model" prefWidth="75.0" text="Model" />

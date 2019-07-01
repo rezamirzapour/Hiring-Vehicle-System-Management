@@ -53,6 +53,9 @@ public class HireController extends Controller {
     @FXML
     private TextField userPhone;
 
+    @FXML
+    private Button goToHiredListButton;
+
     public void initialize(URL location, ResourceBundle resources) {
         filterComboBox.getItems().add("All");
         filterComboBox.setValue("All");
@@ -84,6 +87,13 @@ public class HireController extends Controller {
                 loadDashboardScene();
             }
         });
+
+        goToHiredListButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loadHiredVehiclesScene();
+            }
+        });
     }
 
 
@@ -106,7 +116,18 @@ public class HireController extends Controller {
     }
 
     private void hire() {
-        new DbConnection().hireVehicle(tbData.getSelectionModel().getSelectedItem().getId(), userPhone.getText(), priodComboBox.getValue());
+        DbConnection db = new DbConnection();
+        db.hireVehicle(tbData.getSelectionModel().getSelectedItem().getId(), userPhone.getText(), priodComboBox.getValue());
+        db.close();
+    }
+    private void loadHiredVehiclesScene() {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/HiredVehicles.fxml"));
+            anchorPane.getChildren().removeAll();
+            anchorPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
