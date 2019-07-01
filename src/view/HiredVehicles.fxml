@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -8,7 +9,7 @@
    <children>
       <Pane layoutY="-2.0" prefHeight="139.0" prefWidth="950.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="-2.0">
          <children>
-            <Label layoutX="73.0" layoutY="30.0" text="Dashboard" textFill="WHITE">
+            <Label layoutX="73.0" layoutY="30.0" text="Hired Vehicles" textFill="WHITE">
                <font>
                   <Font size="48.0" />
                </font>
@@ -18,12 +19,12 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label layoutX="397.0" layoutY="57.0" prefHeight="40.0" prefWidth="395.0" text="Income Of This Type Of Vehicle:" textFill="WHITE">
+            <Label layoutX="541.0" layoutY="57.0" prefHeight="40.0" prefWidth="395.0" text="Income Of This Type Of Vehicle:" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
             </Label>
-            <Label fx:id="totalIncome" layoutX="800.0" layoutY="57.0" prefHeight="40.0" prefWidth="184.0" text="0" textFill="WHITE">
+            <Label fx:id="totalIncome" layoutX="944.0" layoutY="57.0" prefHeight="40.0" prefWidth="184.0" text="0" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
